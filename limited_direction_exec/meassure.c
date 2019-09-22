@@ -47,15 +47,15 @@ int main(void){
         perror("fork");
         exit(EXIT_FAILURE);
     }else if (rc == 0){
-        //if(sched_setaffinity(getpid(), sizeof(cpu_set_t), &set) < 0)
-          //  exit(EXIT_FAILURE);
+        if(sched_setaffinity(getpid(), sizeof(cpu_set_t), &set) < 0)
+            exit(EXIT_FAILURE);
         for(i = 0; i < loops; i++){
             read(first_pipe[0], NULL, 0);
             write(second_pipe[1], NULL, 0);
         }
     }else{
-       // if(sched_setaffinity(getpid(), sizeof(cpu_set_t), &set) < 0)
-         //   exit(EXIT_FAILURE);
+        if(sched_setaffinity(getpid(), sizeof(cpu_set_t), &set) < 0)
+            exit(EXIT_FAILURE);
         gettimeofday(&start, NULL);
         for(i = 0; i < loops; i++){
             write(first_pipe[1], NULL, 0);
